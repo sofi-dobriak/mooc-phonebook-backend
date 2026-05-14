@@ -30,14 +30,7 @@ app.get('/api/persons', (req, res) => {
 });
 
 app.get('/api/persons/:id', (req, res) => {
-  const id = req.params.id;
-  const person = persons.find(person => person.id === id);
-
-  if (person) {
-    res.json(person);
-  } else {
-    res.status(404).end('Person not found');
-  }
+  Person.findById(req.params.id).then(person => res.send(person));
 });
 
 app.post('/api/persons', (req, res) => {
@@ -56,14 +49,12 @@ app.post('/api/persons', (req, res) => {
     });
   }
 
-  const person = {
-    id: generateId(),
+  const person = new Person({
     name: body.name,
     number: body.number,
-  };
+  });
 
-  persons = persons.concat(person);
-  res.json(person);
+  person.save().then(savedNote => res.json(savedNote));
 });
 
 app.delete('/api/persons/:id', (req, res) => {
