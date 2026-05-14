@@ -5,7 +5,7 @@ const morgan = require('morgan');
 
 const { generateId } = require('./helpers/helpers');
 
-const Persons = require('./models/persons');
+const Person = require('./models/persons');
 
 const app = express();
 
@@ -35,17 +35,10 @@ app.get('/api/persons/:id', (req, res) => {
 
 app.post('/api/persons', (req, res) => {
   const body = req.body;
-  const existingPerson = persons.find(person => person.name === body.name);
 
   if (!body.name || !body.number) {
     return res.status(400).json({
       error: 'Name or number is missing',
-    });
-  }
-
-  if (existingPerson) {
-    return res.status(400).json({
-      error: 'Name must be unique',
     });
   }
 
@@ -58,10 +51,7 @@ app.post('/api/persons', (req, res) => {
 });
 
 app.delete('/api/persons/:id', (req, res) => {
-  const id = req.params.id;
-  persons = persons.filter(person => person.id !== id);
-
-  res.status(204).end();
+  Person.findByIdAndDelete(req.params.id).then(() => res.status(204).end());
 });
 
 const PORT = process.env.PORT;
