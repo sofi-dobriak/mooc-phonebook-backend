@@ -3,8 +3,6 @@ require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
 
-const { generateId } = require('./helpers/helpers');
-
 const Person = require('./models/persons');
 
 const app = express();
