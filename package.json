@@ -7,10 +7,10 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node --watch index.js",
-    "lint": "eslint .",
-    "test": "node --test"
+    "start": "NODE_ENV=production node index.js",
+    "dev": "NODE_ENV=development node --watch index.js",
+    "test": "NODE_ENV=test node --test",
+    "lint": "eslint ."
   },
   "dependencies": {
     "dotenv": "^17.4.2",
