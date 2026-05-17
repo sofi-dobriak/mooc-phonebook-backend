@@ -1,7 +1,7 @@
 {
-  "name": "phonebook_backend",
+  "name": "bloglist_backend",
   "version": "1.0.0",
-  "description": "phonebook_backend",
+  "description": "bloglist_backend",
   "license": "ISC",
   "author": "Sofi Dobriak <sofi.dobriak@gmail.com>",
   "type": "commonjs",
@@ -10,7 +10,7 @@
     "start": "node index.js",
     "dev": "node --watch index.js",
     "lint": "eslint .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
