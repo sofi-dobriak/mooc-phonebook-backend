@@ -1,12 +1,14 @@
-const dummy = blogs => {
+const dummy = (blogs) => {
   return 1;
 };
 
-const totalLikes = blogs => {
-  return blogs.length === 0 ? 0 : blogs.reduce((acc, { likes }) => likes + acc, 0);
+const totalLikes = (blogs) => {
+  return blogs.length === 0
+    ? 0
+    : blogs.reduce((acc, { likes }) => likes + acc, 0);
 };
 
-const favoriteBlog = blogs => {
+const favoriteBlog = (blogs) => {
   let favBlog = blogs[0];
 
   for (const blog of blogs) {
@@ -18,7 +20,7 @@ const favoriteBlog = blogs => {
   return favBlog ? favBlog : 0;
 };
 
-const mostBlogs = blogs => {
+const mostBlogs = (blogs) => {
   if (blogs.length === 0) return {};
 
   const mostBlogsObject = {};
@@ -40,7 +42,7 @@ const mostBlogs = blogs => {
   return { author: author, blogs: count };
 };
 
-const mostLikes = blogs => {
+const mostLikes = (blogs) => {
   if (blogs.length === 0) return {};
 
   const mostLikesObject = {};
