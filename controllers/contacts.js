@@ -1,19 +1,17 @@
 const contactsRoute = require('express').Router();
 const Contact = require('../models/contact');
 
-contactsRoute.get('/', (req, res, next) => {
-  Contact.find({})
-    .then(contacts => res.send(contacts))
-    .catch(error => next(error));
+contactsRoute.get('/', async (req, res, next) => {
+  const contacts = await Contact.find({});
+  res.json(contacts);
 });
 
-contactsRoute.get('/:id', (req, res, next) => {
-  Contact.findById(req.params.id)
-    .then(contact => (contact ? res.json(contact) : res.status(404).end()))
-    .catch(error => next(error));
+contactsRoute.get('/:id', async (req, res, next) => {
+  const contact = await Contact.findById(req.params.id);
+  contact ? res.json(contact) : res.status(404).end();
 });
 
-contactsRoute.post('/', (req, res, next) => {
+contactsRoute.post('/', async (req, res, next) => {
   const body = req.body;
 
   if (!body.name || !body.number) {
@@ -27,10 +25,8 @@ contactsRoute.post('/', (req, res, next) => {
     number: body.number,
   });
 
-  contact
-    .save()
-    .then(savedContact => res.json(savedContact))
-    .catch(error => next(error));
+  const savedContact = await contact.save();
+  res.status(201).json(savedContact);
 });
 
 contactsRoute.put('/:id', (req, res, next) => {
@@ -51,10 +47,9 @@ contactsRoute.put('/:id', (req, res, next) => {
     .catch(error => next(error));
 });
 
-contactsRoute.delete('/:id', (req, res, next) => {
-  Contact.findByIdAndDelete(req.params.id)
-    .then(contact => (contact ? res.status(204).end() : res.status(404).send('Contact not found')))
-    .catch(error => next(error));
+contactsRoute.delete('/:id', async (req, res, next) => {
+  const contact = await Contact.findByIdAndDelete(req.params.id);
+  contact ? res.status(204).end() : res.status(404).send('Contact not found');
 });
 
 module.exports = contactsRoute;
