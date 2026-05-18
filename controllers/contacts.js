@@ -29,22 +29,17 @@ contactsRoute.post("/", async (req, res, next) => {
   res.status(201).json(savedContact);
 });
 
-contactsRoute.put("/:id", (req, res, next) => {
+contactsRoute.put("/:id", async (req, res, next) => {
   const { name, number } = req.body;
 
-  Contact.findById(req.params.id)
-    .then((contact) => {
-      if (!contact) return res.status(404).end();
+  const contact = await Contact.findById(req.params.id);
+  if (!contact) return res.status(404).end();
 
-      contact.name = name;
-      contact.number = number;
+  contact.name = name;
+  contact.number = number;
 
-      return contact
-        .save()
-        .then((updateContact) => res.json(updateContact))
-        .catch((error) => next(error));
-    })
-    .catch((error) => next(error));
+  const updatedContact = await contact.save();
+  res.status(200).json(updatedContact);
 });
 
 contactsRoute.delete("/:id", async (req, res, next) => {
