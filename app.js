@@ -7,6 +7,7 @@ const middleware = require("./utils/middleware");
 
 const infoRoute = require("./controllers/info");
 const usersRoute = require("./controllers/user");
+const loginRoute = require("./controllers/login");
 const contactsRoute = require("./controllers/contacts");
 
 const app = express();
@@ -32,6 +33,7 @@ app.use(
 
 app.use("/api/info", infoRoute);
 app.use("/api/users", usersRoute);
+app.use("/api/login", loginRoute);
 app.use("/api/contacts", contactsRoute);
 
 app.use(middleware.errorHandler);

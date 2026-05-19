@@ -1,6 +1,18 @@
+const jwt = require("jsonwebtoken");
+
 const contactsRoute = require("express").Router();
 const Contact = require("../models/contact");
 const User = require("../models/user");
+
+const getTokenFrom = (req) => {
+  const authorization = req.get("authorization");
+
+  if (authorization && authorization.startsWith("Bearer ")) {
+    return authorization.replace("Bearer ", "");
+  }
+
+  return null;
+};
 
 contactsRoute.get("/", async (req, res) => {
   const contacts = await Contact.find({}).populate("user", {
@@ -18,7 +30,12 @@ contactsRoute.get("/:id", async (req, res) => {
 contactsRoute.post("/", async (req, res) => {
   const body = req.body;
 
-  const user = await User.findById(body.userId);
+  const decodedToken = jwt.verify(getTokenFrom(req), process.env.SECRET);
+  if (!decodedToken.id) {
+    return res.status(401).json({ error: "token invalid" });
+  }
+
+  const user = await User.findById(decodedToken.id);
 
   if (!user) {
     return res.status(400).json({ error: "userId is missing or not valid" });
