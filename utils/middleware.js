@@ -11,8 +11,12 @@ const errorHandler = (err, req, res, next) => {
     return res.status(404).json({ error: "not found" });
   }
 
-  if (err.name === "MongoServerError" && err.code === 11000) {
-    return res.status(400).json({ error: "name must be unqie" });
+  if (
+    err.name === "MongoServerError" &&
+    err.code === 11000 &&
+    err.message.includes("E11000 duplicate key error")
+  ) {
+    return res.status(400).json({ error: "username must be unique" });
   }
 
   if (err.name === "CastError") {

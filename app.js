@@ -3,9 +3,11 @@ const express = require("express");
 const morgan = require("morgan");
 const config = require("./utils/config");
 const logger = require("./utils/logger");
-const contactsRoute = require("./controllers/contacts");
-const infoRoute = require("./controllers/info");
 const middleware = require("./utils/middleware");
+
+const infoRoute = require("./controllers/info");
+const usersRoute = require("./controllers/user");
+const contactsRoute = require("./controllers/contacts");
 
 const app = express();
 
@@ -29,6 +31,7 @@ app.use(
 );
 
 app.use("/api/info", infoRoute);
+app.use("/api/users", usersRoute);
 app.use("/api/contacts", contactsRoute);
 
 app.use(middleware.errorHandler);
